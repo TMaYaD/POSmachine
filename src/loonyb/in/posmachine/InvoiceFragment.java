@@ -64,11 +64,16 @@ public class InvoiceFragment extends Fragment {
     }
 
     public void updateInvoiceView(int position) {
+    	Context c = getActivity();
+
     	TableLayout table = (TableLayout) getActivity().findViewById(R.id.items);
     	table.addView(itemsHeader());
-    	
-        TextView invoice = (TextView) getActivity().findViewById(R.id.invoice);
-        invoice.setText(Ipsum.Invoices[position]);
+
+    	// TODO: load invoice from database
+    	Invoice invoice = Ipsum.Invoices[position];
+    	for( int i = 0; i < invoice.items.length; i++ ) {
+    		table.addView(invoice.items[i].buildRow(c, i));
+    	}
         mCurrentPosition = position;
     }
 
