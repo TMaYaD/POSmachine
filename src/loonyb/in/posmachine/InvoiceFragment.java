@@ -15,11 +15,15 @@
  */
 package loonyb.in.posmachine;
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class InvoiceFragment extends Fragment {
@@ -60,12 +64,31 @@ public class InvoiceFragment extends Fragment {
     }
 
     public void updateInvoiceView(int position) {
+    	TableLayout table = (TableLayout) getActivity().findViewById(R.id.items);
+    	table.addView(itemsHeader());
+    	
         TextView invoice = (TextView) getActivity().findViewById(R.id.invoice);
         invoice.setText(Ipsum.Invoices[position]);
         mCurrentPosition = position;
     }
 
-    @Override
+    private TableRow itemsHeader() {
+    	Context c = getActivity();
+    	Resources res = getResources();
+    	String[] headers = res.getStringArray(R.array.item_header);
+    	
+    	TableRow row = new TableRow(c);
+
+    	for( int i = 0; i < headers.length; i++) {
+    		TextView column = new TextView(c);
+    		column.setText(headers[i]);
+        	row.addView(column);
+    	}
+    	
+		return row;
+	}
+
+	@Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
